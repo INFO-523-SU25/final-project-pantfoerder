@@ -1,0 +1,128 @@
+[
+  {
+    "objectID": "proposal.html",
+    "href": "proposal.html",
+    "title": "Cats in the USA",
+    "section": "",
+    "text": "import pandas as pd\nimport numpy as np"
+  },
+  {
+    "objectID": "proposal.html#dataset",
+    "href": "proposal.html#dataset",
+    "title": "Cats in the USA",
+    "section": "Dataset",
+    "text": "Dataset\n\ncats = pd.read_csv(\"data/pet-cats-usa.csv\")\ncats_ref = pd.read_csv(\"data/pet-cats-usa-reference-data.csv\")\n\nThe dataset used is “Pet Cats United States” from the Movebank Data Repostiory. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset “pet-cats-usa.csv” has 659770 rows and 15 columns. The reference dataset “pet-cats-usa-reference-data.csv” has 154 rows and 21 columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States."
+  },
+  {
+    "objectID": "proposal.html#questions",
+    "href": "proposal.html#questions",
+    "title": "Cats in the USA",
+    "section": "Questions",
+    "text": "Questions\n\nWhat movememnt patterns do pet cats in the United States exhibit?\nCan we identify potential outliers or unusual behaviors in cat movement data?"
+  },
+  {
+    "objectID": "proposal.html#analysis-plan",
+    "href": "proposal.html#analysis-plan",
+    "title": "Cats in the USA",
+    "section": "Analysis plan",
+    "text": "Analysis plan\n\nFor Question 1 I can:\n\nVisualize cat movement paths on a map using location-lat, location-long, and timestamp.\nGroup movement patterns by animal-sex and animal-life-stage.\nSummarize key statistics such as average daily travel distance\n\nFor Question 2 I can:\n\nIdentify outliers using ground-speed, algorithm-marked-outlier, and manually-marked-outlier.\nHighlight unusual behaviors\nCreate filters for users to view specific subsets of cats"
+  },
+  {
+    "objectID": "proposal.html#timeline",
+    "href": "proposal.html#timeline",
+    "title": "Cats in the USA",
+    "section": "Timeline",
+    "text": "Timeline\n\nWeek 5: Perform basic exploratory analysis and explore static visualizations that could be used for the dashboard.\nWeek 6: Develop dashboard components with outliers and filtering features.\nWeek 7: Finalize dasbhoard and submit project write-up."
+  },
+  {
+    "objectID": "proposal.html#project-organization",
+    "href": "proposal.html#project-organization",
+    "title": "Cats in the USA",
+    "section": "Project Organization",
+    "text": "Project Organization\nfinal-project-nessapantfoerder/\n│\n├── data/\n│   ├── pet-cats-usa.csv\n│   ├── pet-cats-usa-reference-data.csv\n│   └── README.md           # Description of the data files\n│\n├── _extra/\n│   └── analysis.ipynb      # Initial exploratory analysis\n│   └── README.md           # Purpose of the folder\n│\n├── images/                 # Any images needed for the presentation or website\n│\n├── about.qmd               \n├── index.qmd               \n├── presentation.qmd        \n├── proposal.qmd            \n├── _quarto.yml             \n├── README.md            \n└── requirements.txt"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Cats in the USA",
+    "section": "",
+    "text": "Add project abstract here."
+  },
+  {
+    "objectID": "index.html#abstract",
+    "href": "index.html#abstract",
+    "title": "Cats in the USA",
+    "section": "",
+    "text": "Add project abstract here."
+  },
+  {
+    "objectID": "presentation.html#quarto",
+    "href": "presentation.html#quarto",
+    "title": "Cats in the USA",
+    "section": "Quarto",
+    "text": "Quarto\n\nThe presentation is created using the Quarto CLI\n## sets the start of a new slide"
+  },
+  {
+    "objectID": "presentation.html#layouts",
+    "href": "presentation.html#layouts",
+    "title": "Cats in the USA",
+    "section": "Layouts",
+    "text": "Layouts\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\nlike\nthis\n\nAnd add footnotes"
+  },
+  {
+    "objectID": "presentation.html#code",
+    "href": "presentation.html#code",
+    "title": "Cats in the USA",
+    "section": "Code",
+    "text": "Code\n\n\n                            OLS Regression Results                            \n==============================================================================\nDep. Variable:                    mpg   R-squared:                       0.073\nModel:                            OLS   Adj. R-squared:                  0.070\nMethod:                 Least Squares   F-statistic:                     30.59\nDate:                Fri, 01 Aug 2025   Prob (F-statistic):           5.84e-08\nTime:                        13:00:26   Log-Likelihood:                -1346.4\nNo. Observations:                 392   AIC:                             2697.\nDf Residuals:                     390   BIC:                             2705.\nDf Model:                           1                                         \nCovariance Type:            nonrobust                                         \n==============================================================================\n                 coef    std err          t      P&gt;|t|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst         35.8015      2.266     15.800      0.000      31.347      40.257\nspeed       -354.7055     64.129     -5.531      0.000    -480.788    -228.623\n==============================================================================\nOmnibus:                       27.687   Durbin-Watson:                   0.589\nProb(Omnibus):                  0.000   Jarque-Bera (JB):               18.976\nSkew:                           0.420   Prob(JB):                     7.57e-05\nKurtosis:                       2.323   Cond. No.                         169.\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
+  },
+  {
+    "objectID": "presentation.html#plots",
+    "href": "presentation.html#plots",
+    "title": "Cats in the USA",
+    "section": "Plots",
+    "text": "Plots"
+  },
+  {
+    "objectID": "presentation.html#plot-and-text",
+    "href": "presentation.html#plot-and-text",
+    "title": "Cats in the USA",
+    "section": "Plot and text",
+    "text": "Plot and text\n\n\n\nSome text\ngoes here"
+  },
+  {
+    "objectID": "presentation.html#tables",
+    "href": "presentation.html#tables",
+    "title": "Cats in the USA",
+    "section": "Tables",
+    "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,\n\n\n\n\n\n\n\n\n\n\n\n\nspecies\n\n\n\nisland\n\n\n\nbill_length_mm\n\n\n\nbill_depth_mm\n\n\n\nflipper_length_mm\n\n\n\nbody_mass_g\n\n\n\nsex\n\n\n\n\n\n\n\n\n\n\n\n0\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n39.1\n\n\n\n18.7\n\n\n\n181.0\n\n\n\n3750.0\n\n\n\nMale\n\n\n\n\n\n\n\n1\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n39.5\n\n\n\n17.4\n\n\n\n186.0\n\n\n\n3800.0\n\n\n\nFemale\n\n\n\n\n\n\n\n2\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n40.3\n\n\n\n18.0\n\n\n\n195.0\n\n\n\n3250.0\n\n\n\nFemale\n\n\n\n\n\n\n\n4\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n36.7\n\n\n\n19.3\n\n\n\n193.0\n\n\n\n3450.0\n\n\n\nFemale\n\n\n\n\n\n\n\n5\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n39.3\n\n\n\n20.6\n\n\n\n190.0\n\n\n\n3650.0\n\n\n\nMale"
+  },
+  {
+    "objectID": "presentation.html#images",
+    "href": "presentation.html#images",
+    "title": "Cats in the USA",
+    "section": "Images",
+    "text": "Images\n\nImage credit: Danielle Navarro, Percolate."
+  },
+  {
+    "objectID": "presentation.html#math-expressions",
+    "href": "presentation.html#math-expressions",
+    "title": "Cats in the USA",
+    "section": "Math Expressions",
+    "text": "Math Expressions\nYou can write LaTeX math expressions inside a pair of dollar signs, e.g. $\\alpha+\\beta$ renders \\(\\alpha + \\beta\\). You can use the display style with double dollar signs:\n$$\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i$$\n\\[\n\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i\n\\]\nLimitations:\n\nThe source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting $$ must appear in the very beginning of a line, followed immediately by a non-space character, and the ending $$ must be at the end of a line, led by a non-space character;\nThere should not be spaces after the opening $ or before the closing $."
+  },
+  {
+    "objectID": "presentation.html#feeling-adventurous",
+    "href": "presentation.html#feeling-adventurous",
+    "title": "Cats in the USA",
+    "section": "Feeling adventurous?",
+    "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This project was developed by Nessa Pantfoerder For INFO 523 - Data Mining and Discovery at the University of Arizona, taught by Dr. Greg Chism. The team is comprised of the following team members.\n\nNessa Pantfoerder: First year in the MSDS program."
+  }
+]
