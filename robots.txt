@@ -1,1 +1,1 @@
-Sitemap: https://INFO-523-SU25.github.io/final-project-nessapantfoerder/sitemap.xml
+Sitemap: https://INFO-523-SU25.github.io/final-project-pantfoerder/sitemap.xml
