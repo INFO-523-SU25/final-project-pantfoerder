@@ -1,11 +1,11 @@
 ---
-title: "Proposal title"
-subtitle: "Proposal"
+title: "Cats in the USA"
+subtitle: "An Interactive Dashboard for Detecting Patterns and Outliers in Animal Tracking Data"
 author: 
-  - name: "Team Name - Team member 1, Team member 2,..."
+  - name: "Nessa Pantfoerder"
     affiliations:
       - name: "College of Information Science, University of Arizona"
-description: "Project description"
+description: "This proposal is for an interactive dashbaord to explore movement data of pet cats in the United States, aiming to uncover spatial patterns and detect outliers."
 format:
   html:
     code-tools: true
@@ -16,12 +16,14 @@ editor: visual
 code-annotations: hover
 execute:
   warning: false
+  eval: true
 jupyter: python3
 ---
 
 ```{python}
 #| label: load-pkgs
 #| message: false
+import pandas as pd
 import numpy as np
 ```
 
@@ -30,16 +32,56 @@ import numpy as np
 ```{python}
 #| label: load-dataset
 #| message: false
+cats = pd.read_csv("data/pet-cats-usa.csv")
+cats_ref = pd.read_csv("data/pet-cats-usa-reference-data.csv")
 ```
 
-A brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.
-
-Make sure to load the data and use inline code for some of this information.
+The dataset used is "Pet Cats United States" from the Movebank Data Repostiory. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset "pet-cats-usa.csv" has `{python} cats.shape[0]` rows and `{python} cats.shape[1]` columns. The reference dataset "pet-cats-usa-reference-data.csv" has `{python} cats_ref.shape[0]` rows and `{python} cats_ref.shape[1]` columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States.
 
 ## Questions
 
-The two questions you want to answer.
+1.  What movememnt patterns do pet cats in the United States exhibit?
+
+2.  Can we identify potential outliers or unusual behaviors in cat movement data?
 
 ## Analysis plan
 
--   A plan for answering each of the questions including the variables involved, variables to be created (if any), external data to be merged in (if any).
+-   For Question 1 I can:
+    -   Visualize cat movement paths on a map using `location-lat`, `location-long`, and `timestamp`.
+    -   Group movement patterns by `animal-sex` and `animal-life-stage`.
+    -   Summarize key statistics such as average daily travel distance
+-   For Question 2 I can:
+    -   Identify outliers using `ground-speed`, `algorithm-marked-outlier`, and `manually-marked-outlier`.
+    -   Highlight unusual behaviors
+    -   Create filters for users to view specific subsets of cats
+
+## Timeline
+
+-   Week 5: Perform basic exploratory analysis and explore static visualizations that could be used for the dashboard.
+-   Week 6: Develop dashboard components with outliers and filtering features.
+-   Week 7: Finalize dasbhoard and submit project write-up.
+
+## Project Organization
+
+```         
+final-project-nessapantfoerder/
+│
+├── data/
+│   ├── pet-cats-usa.csv
+│   ├── pet-cats-usa-reference-data.csv
+│   └── README.md           # Description of the data files
+│
+├── _extra/
+│   └── analysis.ipynb      # Initial exploratory analysis
+│   └── README.md           # Purpose of the folder
+│
+├── images/                 # Any images needed for the presentation or website
+│
+├── about.qmd               
+├── index.qmd               
+├── presentation.qmd        
+├── proposal.qmd            
+├── _quarto.yml             
+├── README.md            
+└── requirements.txt       
+```

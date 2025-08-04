@@ -1,11 +1,11 @@
 ---
-title: "Project Title"
+title: "Cats in the USA"
 subtitle: "INFO 523 - Final Project"
 author: 
-  - name: "Team name - Team member 1, Team member 2,..."
+  - name: "Nessa Pantfoerder"
     affiliations:
       - name: "College of Information Science, University of Arizona"
-description: "Project description"
+description: "An Interactive Dashboard for Detecting Patterns and Outliers in Animal Tracking Data"
 format:
    html:
     code-tools: true
