@@ -36,11 +36,11 @@ cats = pd.read_csv("data/pet-cats-usa.csv")
 cats_ref = pd.read_csv("data/pet-cats-usa-reference-data.csv")
 ```
 
-The dataset used is "Pet Cats United States" from the Movebank Data Repostiory. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset "pet-cats-usa.csv" has `{python} cats.shape[0]` rows and `{python} cats.shape[1]` columns. The reference dataset "pet-cats-usa-reference-data.csv" has `{python} cats_ref.shape[0]` rows and `{python} cats_ref.shape[1]` columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States.
+The dataset used is "Pet Cats United States" from the Movebank Data Repository. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset "pet-cats-usa.csv" has `{python} cats.shape[0]` rows and `{python} cats.shape[1]` columns. The reference dataset "pet-cats-usa-reference-data.csv" has `{python} cats_ref.shape[0]` rows and `{python} cats_ref.shape[1]` columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States.
 
 ## Questions
 
-1.  What movememnt patterns do pet cats in the United States exhibit?
+1.  What movement patterns do pet cats in the United States exhibit?
 
 2.  Can we identify potential outliers or unusual behaviors in cat movement data?
 
@@ -59,7 +59,7 @@ The dataset used is "Pet Cats United States" from the Movebank Data Repostiory. 
 
 -   Week 5: Perform basic exploratory analysis and explore static visualizations that could be used for the dashboard.
 -   Week 6: Develop dashboard components with outliers and filtering features.
--   Week 7: Finalize dasbhoard and submit project write-up.
+-   Week 7: Finalize dashboard and submit project write-up.
 
 ## Project Organization
 
