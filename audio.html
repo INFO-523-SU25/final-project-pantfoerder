@@ -1,0 +1,23 @@
+<div id="voiceover-player-wrap">
+  <audio id="voiceover-player" controls preload="auto">
+    <source src="voiceover.mp4" type="audio/mp4">
+    Your browser does not support the audio element.
+  </audio>
+</div>
+
+<style>
+#voiceover-player-wrap {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  z-index: 9999;
+  background: rgba(255,255,255,0.9);
+  padding: 6px 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+#voiceover-player {
+  width: 280px;
+  height: 32px;
+}
+</style>

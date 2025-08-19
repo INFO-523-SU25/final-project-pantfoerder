@@ -1,167 +1,232 @@
 ---
 title: "Cats in the USA"
-subtitle: "INFO 523 - Summer 2025 - Final Project"
+subtitle: "INFO 523 - Final Project"
 author: "Nessa Pantfoerder"
-title-slide-attributes:
-  data-background-image: images/pawprint_title_slide.png
-  data-background-size: stretch
-  data-background-opacity: "0.7"
-  data-slide-number: none
 format:
   revealjs:
     theme:  ['data/customtheming.scss']
-  
+    slide-number: true
+    embed-resources: true
+    transition: slide
+    center: false
+    controls: true
+    include-in-header: audio.html
 editor: visual
 jupyter: python3
 execute:
   echo: false
+  warning: false
+  message: false
 ---
 
-```{python}
-#| label: load-packages
-#| include: false
+## Goals
 
-# Load packages here
+**Pet Cats USA Dashboard**
+Transform a dataset of pet cats tracked throughout the USA to a dashboard that answers:
+
+-   How is the population distributed across **sex** and **life stage**?
+-   How does **hunting** vary by life stage and sex?
+-   How does **age** relate to **prey per month**?
+
+*Data source:* `data/pet-cats-usa-reference-data.csv`
+
+------------------------------------------------------------------------
+
+## Dataset & Variables
+
+-   `animal-id`: unique cat identifier
+-   `animal-sex`: sex (normalized to `m`, `f`, `unknown`)
+-   `animal-life-stage`: text containing a numeric **age in years**
+-   `animal-comments`: e.g., `Hunt: Yes; prey_p_month: 12`
+-   `age_years`: (int) *derived*
+-   `life_stage_bin`: {kitten ≤2, adult 2–6, mature 6–10, senior \>10} *derived*
+-   `hunts`: (bool) *derived*, `prey_p_month`: (float) *derived*
+
+------------------------------------------------------------------------
+
+## Methods (Justification)
+
+-   **Cleaning** → transparent and reproducible
+-   **Parsing** → variables (hunts & prey/month)
+-   **Binning** → interpretable comparisons across life stages
+-   **Mining** → counts, distributions, and associations
+-   **Charts** → portable, reproducible, and informative
+
+------------------------------------------------------------------------
+
+## Setup and Cleaning
+
+Before analysis, we prepared the dataset to ensure accuracy and usability:
+
+-   Imported the dataset `pet-cats-usa-reference-data.csv`.
+-   Cleaned **animal-life-stage** values by removing blanks, stripping text, and converting to integers.
+-   Binned ages into **Kitten, Adult, Mature, and Senior** categories.
+-   Parsed the **animal-comments** column to extract if the cat is a hunter and how many prey per month caught.
+
+```{python}
 import pandas as pd
-import seaborn as sns
+import numpy as np
+import re
 
+df = pd.read_csv("data/pet-cats-usa-reference-data.csv")
+
+cols_map = {c.lower().strip().replace(" ", "-").replace("_","-"): c for c in df.columns}
+def get_col(*cands):
+    for cand in cands:
+        key = cand.lower().strip().replace(" ", "-").replace("_","-")
+        if key in cols_map:
+            return cols_map[key]
+        hit = [orig for k, orig in cols_map.items() if key in k]
+        if hit:
+            return hit[0]
+    return None
+
+col_animal_id   = get_col("animal-id","individual-local-identifier","animal_id")
+col_animal_sex  = get_col("animal-sex","sex")
+col_lifestage   = get_col("animal-life-stage","life-stage","life_stage")
+col_comments    = get_col("animal-comments","comments","animal_comments")
+
+work = df.copy()
+
+# clean sex
+if col_animal_sex is not None:
+    work["animal_sex"] = (work[col_animal_sex].astype(str).str.strip().str.lower()
+                          .replace({"m":"Male","f":"Female"}))
+else:
+    work["animal_sex"] = "Unknown"
+
+# parse animal-life-stage
+# "2 years" to integer
+# Create life_stage_bin to categorize ages
+if col_lifestage is not None:
+    ls = work[col_lifestage].astype(str)
+else:
+    ls = pd.Series("", index=work.index)
+
+age_num = ls.str.extract(r"(\d{1,2})", expand=False).astype(float)
+work["age_years"] = age_num.dropna().astype(int)
+work = work[work["age_years"].notna()].copy()
+work["age_years"] = work["age_years"].astype(int)
+
+def life_stage_bin(age):
+    if pd.isna(age): return "unknown"
+    a = float(age)
+    if a <= 2: return "Kitten"
+    if a <= 6: return "Adult"
+    if a <= 10: return "Mature"
+    return "Senior"
+
+work["life_stage_bin"] = work["age_years"].apply(life_stage_bin)
+
+# parse structured animal-comments
+# "Hunt: Yes; prey_p_month: 12"
+if col_comments is not None:
+    comm = work[col_comments].fillna("").astype(str)
+else:
+    comm = pd.Series([""] * len(work), index=work.index)
+
+def parse_hunt_and_prey(s: str):
+    s_norm = re.sub(r"\s+", " ", s.strip())
+    hunt_val, prey_val = np.nan, np.nan
+    m_h = re.search(r"Hunt\s*:\s*([^;]*)", s_norm, flags=re.I)
+    if m_h:
+        raw = m_h.group(1).strip().lower()
+        if raw in {"yes","y","true","t","1"}:
+            hunt_val = True
+        elif raw in {"no","n","false","f","0"}:
+            hunt_val = False
+        elif raw == "":
+            hunt_val = np.nan
+        else:
+            hunt_val = np.nan
+    m_p = re.search(r"prey_p_month\s*:\s*([^;]*)", s_norm, flags=re.I)
+    if m_p:
+        rawp = m_p.group(1).strip()
+        prey_val = pd.to_numeric(rawp, errors="coerce")
+    return hunt_val, prey_val
+
+parsed = comm.apply(parse_hunt_and_prey)
+work["hunts"] = parsed.apply(lambda t: t[0])
+work["prey_p_month"] = parsed.apply(lambda t: t[1])
 ```
+
+------------------------------------------------------------------------
+
+## Counts of cats tracked by life stage and sex
 
 ```{python}
-#| label: setup
-#| include: false
-#| 
-# Set up plot theme and figure resolution
-sns.set_theme(style="whitegrid")
-sns.set_context("notebook", font_scale=1.1)
+import plotly.express as px
 
-import matplotlib.pyplot as plt
-plt.rcParams['figure.dpi'] = 300
-plt.rcParams['savefig.dpi'] = 300
-plt.rcParams['figure.figsize'] = (6, 6 * 0.618)
+agg = (work.groupby(["life_stage_bin","animal_sex"]).size()
+          .reset_index(name="count"))
+figA = px.bar(agg, x="life_stage_bin", y="count", color="animal_sex", barmode="group",
+              color_discrete_map={"Male": "blue", "Female": "deeppink"},
+              labels={"life_stage_bin":"life stage","count":"count","animal_sex":"sex"})
+
+figA.update_layout(
+    xaxis_title="Life Stage",
+    yaxis_title="Number of Cats",
+    legend_title="Sex"
+)
+
+figA.show()
 ```
+
+------------------------------------------------------------------------
+
+## Prey caught per month by life stage and hunting status
 
 ```{python}
-#| label: load-data
-#| include: false
-# Load data in Python
-mtcars = sns.load_dataset('mpg').dropna()  # mtcars dataset is similar to the mpg dataset from seaborn
-mtcars['speed'] = mtcars['horsepower'] / mtcars['weight']
+sub2 = work.copy()
+sub2["hunt_label"] = np.where(sub2["hunts"], "Hunter", "Does Not Hunt")
+figB = px.box(sub2, x="life_stage_bin", y="prey_p_month", color="hunt_label",
+              hover_data=["animal-id","animal_sex"], points="all",
+              color_discrete_map={"Hunter": "purple", "Does Not Hunt": "green"},
+              labels={"animal-id": "animal id", "animal_sex": "sex", "life_stage_bin":"life stage",
+                      "hunt_label":"hunting status", "prey_p_month":"prey per month"})
+figB.update_layout(
+    xaxis_title="Life Stage",
+    yaxis_title="Number of Prey Caught per Month",
+    legend_title="Hunting Status"
+)
 
-penguins = sns.load_dataset('penguins').dropna()
+figB.show()
 ```
 
-# Using Quarto for presentations
+------------------------------------------------------------------------
 
-## Quarto
-
--   The presentation is created using the Quarto CLI
-
--   `##` sets the start of a new slide
-
-## Layouts
-
-You can use plain text
-
-::::: columns
-::: {.column width="40%"}
--   or bullet points[^1]
-:::
-
-::: {.column width="60%"}
-or in two columns
-:::
-:::::
-
-[^1]: And add footnotes
-
--   like
-
--   this
-
-## Code
+## Age vs prey caught per month by sex
 
 ```{python}
-from sklearn.linear_model import LinearRegression
-import statsmodels.api as sm
-import pandas as pd
+figC = px.scatter(work, x="age_years", y="prey_p_month", color="animal_sex",
+                  trendline="ols", trendline_scope="overall", trendline_color_override="black",
+                  hover_data = ["animal-id", "life_stage_bin", "hunts"],
+                  color_discrete_map={"Male": "blue", "Female": "deeppink"},
+                  labels={"animal-id": "animal id", "life_stage_bin": "life stage", "age_years":"age",
+                          "animal_sex":"sex", "hunts": "hunting status","prey_p_month":"prey per month"})
+figC.update_layout(
+    xaxis_title="Age (Years)",
+    yaxis_title="Number of Prey Caught per Month",
+    legend_title="Sex"
+)
 
-# Fit a linear regression model
-X = mtcars[['speed']]
-y = mtcars['mpg']
-model = LinearRegression().fit(X, y)
-
-# Summary of the model
-X2 = sm.add_constant(X)
-est = sm.OLS(y, X2)
-est2 = est.fit()
-print(est2.summary())
+figC.show()
 ```
 
-## Plots
+------------------------------------------------------------------------
 
-```{python}
-penguins['species'] = penguins['species'].apply(lambda x: "Adelie" if x == "Adelie" else "Other")
-sns.scatterplot(data=penguins, x='flipper_length_mm', y='body_mass_g', hue='species')
-plt.show()
-```
+## Limitations & Next Steps
 
-## Plot and text
+-   Owner‑reported data → recall & detection bias
+-   No spatial/temporal context in the reference file
+-   No way to link animal-id to the spatial data provided
+-   Next:
+    -   GPS integration if linkage between animal and tracker provided in the future
 
-::::: columns
-::: {.column width="50%"}
--   Some text
+------------------------------------------------------------------------
 
--   goes here
-:::
+## Thank you
 
-::: {.column width="50%"}
-```{python}
-#| warning: false
-#| fig.width: 5.5
-fig, ax = plt.subplots(figsize=(5.5, 5.5 * 0.618))
-sns.boxplot(data=penguins, x='bill_length_mm', y='species', hue='species', ax=ax)
-plt.show()
-```
-:::
-:::::
+To view the isolated dashboard navigate to the Dashboard tab.
 
-# A new section...
-
-## Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{python}
-penguins.head().to_html()
-```
-
-## Images
-
-![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png){fig-align="center" width="500"}
-
-## Math Expressions {.smaller}
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. \$\\alpha+\\beta\$ renders $\alpha + \beta$. You can use the display style with double dollar signs:
-
-```         
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$
-\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i
-$$
-
-Limitations:
-
-1.  The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-2.  There should not be spaces after the opening `$` or before the closing `$`.
-
-# Wrap up
-
-## Feeling adventurous?
-
--   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
--   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.
+This was generated from the `dashboard.qmd` file.
