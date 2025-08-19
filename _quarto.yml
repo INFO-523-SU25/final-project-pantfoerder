@@ -1,8 +1,14 @@
 project:
   type: website
+  render:
+    - index.qmd
+    - proposal.qmd
+    - presentation.qmd
+    - about.qmd
+    - _extra/dashboard.qmd
 
 website:
-  title: Project Title
+  title: Cats in the USA
   navbar:
     right:
       - icon: github
@@ -15,7 +21,7 @@ website:
       - text: Presentation
         href: presentation.qmd
       - text: Dashboard
-        href: dashboard.qmd
+        href: _extra/dashboard.qmd 
       - text: About
         href: about.qmd
 

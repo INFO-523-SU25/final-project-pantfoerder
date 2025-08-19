@@ -10,7 +10,7 @@ format:
     transition: slide
     center: false
     controls: true
-    include-in-header: audio.html
+    include-in-header: _extra/audio.html
 editor: visual
 jupyter: python3
 execute:
