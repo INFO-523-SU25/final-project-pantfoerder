@@ -1,5 +1,89 @@
 [
   {
+    "objectID": "_extra/dashboard.html#prey-caught-per-month-by-life-stage-and-hunting-status",
+    "href": "_extra/dashboard.html#prey-caught-per-month-by-life-stage-and-hunting-status",
+    "title": "Cats in the USA",
+    "section": "Prey caught per month by life stage and hunting status",
+    "text": "Prey caught per month by life stage and hunting status"
+  },
+  {
+    "objectID": "_extra/dashboard.html#age-vs-prey-caught-per-month-by-sex",
+    "href": "_extra/dashboard.html#age-vs-prey-caught-per-month-by-sex",
+    "title": "Cats in the USA",
+    "section": "Age vs prey caught per month by sex",
+    "text": "Age vs prey caught per month by sex"
+  },
+  {
+    "objectID": "presentation.html#goals",
+    "href": "presentation.html#goals",
+    "title": "Cats in the USA",
+    "section": "Goals",
+    "text": "Goals\nPet Cats USA Dashboard Transform a dataset of pet cats tracked throughout the USA to a dashboard that answers:\n\nHow is the population distributed across sex and life stage?\nHow does hunting vary by life stage and sex?\nHow does age relate to prey per month?\n\nData source: data/pet-cats-usa-reference-data.csv"
+  },
+  {
+    "objectID": "presentation.html#dataset-variables",
+    "href": "presentation.html#dataset-variables",
+    "title": "Cats in the USA",
+    "section": "Dataset & Variables",
+    "text": "Dataset & Variables\n\nanimal-id: unique cat identifier\nanimal-sex: sex (normalized to m, f, unknown)\nanimal-life-stage: text containing a numeric age in years\nanimal-comments: e.g., Hunt: Yes; prey_p_month: 12\nage_years: (int) derived\nlife_stage_bin: {kitten ≤2, adult 2–6, mature 6–10, senior &gt;10} derived\nhunts: (bool) derived, prey_p_month: (float) derived"
+  },
+  {
+    "objectID": "presentation.html#methods-justification",
+    "href": "presentation.html#methods-justification",
+    "title": "Cats in the USA",
+    "section": "Methods (Justification)",
+    "text": "Methods (Justification)\n\nCleaning → transparent and reproducible\nParsing → variables (hunts & prey/month)\nBinning → interpretable comparisons across life stages\nMining → counts, distributions, and associations\nCharts → portable, reproducible, and informative"
+  },
+  {
+    "objectID": "presentation.html#setup-and-cleaning",
+    "href": "presentation.html#setup-and-cleaning",
+    "title": "Cats in the USA",
+    "section": "Setup and Cleaning",
+    "text": "Setup and Cleaning\nBefore analysis, we prepared the dataset to ensure accuracy and usability:\n\nImported the dataset pet-cats-usa-reference-data.csv.\nCleaned animal-life-stage values by removing blanks, stripping text, and converting to integers.\nBinned ages into Kitten, Adult, Mature, and Senior categories.\nParsed the animal-comments column to extract if the cat is a hunter and how many prey per month caught."
+  },
+  {
+    "objectID": "presentation.html#counts-of-cats-tracked-by-life-stage-and-sex",
+    "href": "presentation.html#counts-of-cats-tracked-by-life-stage-and-sex",
+    "title": "Cats in the USA",
+    "section": "Counts of cats tracked by life stage and sex",
+    "text": "Counts of cats tracked by life stage and sex"
+  },
+  {
+    "objectID": "presentation.html#prey-caught-per-month-by-life-stage-and-hunting-status",
+    "href": "presentation.html#prey-caught-per-month-by-life-stage-and-hunting-status",
+    "title": "Cats in the USA",
+    "section": "Prey caught per month by life stage and hunting status",
+    "text": "Prey caught per month by life stage and hunting status"
+  },
+  {
+    "objectID": "presentation.html#age-vs-prey-caught-per-month-by-sex",
+    "href": "presentation.html#age-vs-prey-caught-per-month-by-sex",
+    "title": "Cats in the USA",
+    "section": "Age vs prey caught per month by sex",
+    "text": "Age vs prey caught per month by sex"
+  },
+  {
+    "objectID": "presentation.html#limitations-next-steps",
+    "href": "presentation.html#limitations-next-steps",
+    "title": "Cats in the USA",
+    "section": "Limitations & Next Steps",
+    "text": "Limitations & Next Steps\n\nOwner‑reported data → recall & detection bias\nNo spatial/temporal context in the reference file\nNo way to link animal-id to the spatial data provided\nNext:\n\nGPS integration if linkage between animal and tracker provided in the future"
+  },
+  {
+    "objectID": "presentation.html#thank-you",
+    "href": "presentation.html#thank-you",
+    "title": "Cats in the USA",
+    "section": "Thank you",
+    "text": "Thank you\nTo view the isolated dashboard navigate to the Dashboard tab.\nThis was generated from the dashboard.qmd file."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Cats in the USA",
+    "section": "",
+    "text": "Introduction\nCats are one of the most popular household pets in the United States, yet their behavior, specifically hunting behavior, is still an under researched front and remains a source of ongoing interest and debate. While many cats live exclusively indoors, a significant portion are allowed to roam outside, where their natural hunting instincts are let loose. This has implications not only for the health and enrichment of the cats themselves, but also for the local ecosystems. Studies have suggested that free-ranging cats can have substantial impacts on bird and small mammal populations, raising concerns among conservationists. On the other hand, understanding these behaviors also helps cat owners make more informed decisions about enrichment, diet, and overall animal welfare.\nThe dataset analyzed in this project, the Pet Cats United States Reference Data, contains records of individual cats across the USA. Each entry documents both demographic details and behavioral notes. The relevant variables include:\n\nanimal-id: A unique identifier treating each cat as an individual observation.\n\nanimal-sex: Categorical string indicating whether the cat is male or female.\n\nanimal-life-stage: String stored as free-text (e.g., “2 years old”) then cleaned into numerical ages and further categorized into four life stages (kitten, adult, mature, senior).\nanimal-comments: A free-text column containing structured phrases about if the cat hunts and how many pray it catches per month in the format “Hunt: Yes; prey_p_month: 12”.\n\nhunts: A Boolean variable derived from parsing animal-comments that indicates whether the cat engages in hunting.\n\nprey_p_month: A derived numeric variable from parsing animal-comments that represents the number of prey caught monthly by that cat.\n\nThe guiding question I dived into:\n“How do life stage and sex affect the behavior and activity of pet cats in the USA, particularly their hunting behavior and prey capture rates?”\nThis question was chosen because it combines demographic and behavioral variables in a way that gives us insights into both practical (for cat owners) and ecological (for conservationists) implications.\nThe chosen data mining approach centers on data cleaning, transformation, and descriptive analysis through visualization. This approach was chosen because the dataset is observational, not experimental, and the goal is to summarize and interpret rather than predict. Exploratory mining techniques are the most appropriate for revealing structure in demographic and behavioral data of this kind.\n\n\n\nData Preparation and Cleaning\nThe raw dataset contained several challenges that needed careful handling before meaningful analysis could be performed. Data cleaning was a critical step because the quality of downstream analysis depended heavily on properly parsed input.\nAge Cleaning and Categorization\nThe animal-life-stage column originally included text-based descriptions such as “3 years” or “1 year old.” These were standardized by extracting numeric values, converting them to integers, and removing blanks. Once cleaned, cats were categorized into life stages:\n- Kitten (0–2 years) – Young and still developing hunting skills.\n- Adult (2–6 years) – Typically the prime age for activity and hunting.\n- Mature (6–10 years) – Beginning to show declines but still capable hunters.\n- Senior (10+ years) – Often less active due to age-related changes.\nThis binning was pulled from common veterinary classifications and allows behavioral trends to be compared across meaningful age groups.\nParsing Owner Comments\nThe animal-comments field contained structured phrases, such as “Hunt: Yes; prey_p_month: 12”. These were split into two explicit variables:\n- hunts: Encoded as True if hunting was reported, False if explicitly stated otherwise, and blank if missing.\n- prey_p_month: Converted into numeric form, making quantitative comparisons possible.\nThis transformation illustrates how even semi-structured text can be mined for structured variables, a common need in real-world data projects.\nHandling Missing Data\nNot all records contained complete information. For example, some had blank life stages or comments. Rather than discarding all incomplete cases, missing ages were excluded from age-based analysis, while missing hunting data was treated as “unknown” unless clearly marked. This approach balances data retention with analytic clarity.\nThe final cleaned dataset was structured containing numeric and categorical variables ready for descriptive data mining.\n\n\n\nMining Methods and Approach\nThe approach relied on to answer the research question was descriptive and exploratory data mining methods.\n\nDescriptive Statistics\nBasic summaries (counts, averages, percentages) were used to understand overall hunting prevalence and prey capture rates.\nGrouping and Aggregation\nCats were grouped by both life stage and sex, allowing hunting prevalence and prey rates to be compared across demographic subgroups.\nVisualization\nCharts were created to summarize insights, including bar charts for categorical comparisons and boxplots for prey count distributions. Visual exploration allowed for identifying patterns and outliers in a way that might not be possible from the tables alone or uncleaned.\n\n\n\n\nResults\n\nHunting Prevalence\nHunting behavior varied across both life stage and sex. Male cats were more likely to be hunters than females, consistent with prior research on territorial and genetic tendencies. Adults had the highest likelihood of hunting, while Seniors were much less active.\n\n\nPrey Capture Rates\nAmong cats that hunted, prey capture rates varied. Adult and mature cats averaged the highest number of prey per month, while Senior cats maintained the lowest levels. This most likely is due to reduced activity and physical agility.\n\n\nAge-Related Behavior\nBreaking the data into life stages revealed a clear behavioral trajectory:\n- Kittens: Moderate hunting activity, likely due to inexperience.\n- Adults: Peak hunting period, aligning with peak physical condition.\n- Mature: Still active but beginning to decline.\n- Seniors: Minimal hunting.\nThese results suggest that the age or life stage of a cat has a stronger influence than sex, though sex still has a significant impact.\n\n\n\n\nDiscussion\nThe findings reinforce both biological expectations and practical concerns. Cats in their adult years, especially males, are the most active hunters. This finding is important for cat owners who are considering outdoor access, as well as for ecologists who are assessing impacts on wildlife.\nFrom a pet ownership perspective, owners of young adult cats might want to consider supervised outdoor play or indoor enrichment alternatives to reduce pressure on local ecosystems. For older cats, owners may want to consider to adapt enrichment to keep them stimulated given reduced hunting.\nFrom a conservation perspective, these findings align with broader concerns about free-ranging cats. While not all cats hunt, those that do, especially adult and mature male cats, can contribute significantly to wildlife predation. Understanding which cats are most likely to hunt allows for more targeted education.\nThis study also highlights the value of data cleaning and transformation in data mining. The original dataset did not provide ready-made variables for analysis. By engineering hunts and prey_p_month from comments, we unlocked insights that would otherwise remain hidden.\nThere are a few limitations of this dataset. One limitation is that the dataset is owner-reported and may under or overestimate actual behavior. Another limitation is the absence of linkage between animal demographic information and geographic data collected by the trackers.\n\n\n\nConclusion\nThis project highlights how data cleaning, transformation, and descriptive mining can reveal patterns in behavioral data. By focusing on life stage and sex of cats, we can show that hunting behavior is larger in male and adult cats, while female and senior cats contribute little in comparison.\nFuture research could expand the dataset, add geographic or longitudinal dimensions, or apply predictive models. The dashboard currently provides a clear summary of cat behavior to be utilized by pet owners and ecologists."
+  },
+  {
     "objectID": "proposal.html",
     "href": "proposal.html",
     "title": "Cats in the USA",
@@ -11,14 +95,14 @@
     "href": "proposal.html#dataset",
     "title": "Cats in the USA",
     "section": "Dataset",
-    "text": "Dataset\n\ncats = pd.read_csv(\"data/pet-cats-usa.csv\")\ncats_ref = pd.read_csv(\"data/pet-cats-usa-reference-data.csv\")\n\nThe dataset used is “Pet Cats United States” from the Movebank Data Repostiory. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset “pet-cats-usa.csv” has 659770 rows and 15 columns. The reference dataset “pet-cats-usa-reference-data.csv” has 154 rows and 21 columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States."
+    "text": "Dataset\n\ncats = pd.read_csv(\"data/pet-cats-usa.csv\")\ncats_ref = pd.read_csv(\"data/pet-cats-usa-reference-data.csv\")\n\nThe dataset used is “Pet Cats United States” from the Movebank Data Repository. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset “pet-cats-usa.csv” has 659770 rows and 15 columns. The reference dataset “pet-cats-usa-reference-data.csv” has 154 rows and 21 columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States."
   },
   {
     "objectID": "proposal.html#questions",
     "href": "proposal.html#questions",
     "title": "Cats in the USA",
     "section": "Questions",
-    "text": "Questions\n\nWhat movememnt patterns do pet cats in the United States exhibit?\nCan we identify potential outliers or unusual behaviors in cat movement data?"
+    "text": "Questions\n\nWhat movement patterns do pet cats in the United States exhibit?\nCan we identify potential outliers or unusual behaviors in cat movement data?"
   },
   {
     "objectID": "proposal.html#analysis-plan",
@@ -32,7 +116,7 @@
     "href": "proposal.html#timeline",
     "title": "Cats in the USA",
     "section": "Timeline",
-    "text": "Timeline\n\nWeek 5: Perform basic exploratory analysis and explore static visualizations that could be used for the dashboard.\nWeek 6: Develop dashboard components with outliers and filtering features.\nWeek 7: Finalize dasbhoard and submit project write-up."
+    "text": "Timeline\n\nWeek 5: Perform basic exploratory analysis and explore static visualizations that could be used for the dashboard.\nWeek 6: Develop dashboard components with outliers and filtering features.\nWeek 7: Finalize dashboard and submit project write-up."
   },
   {
     "objectID": "proposal.html#project-organization",
@@ -40,83 +124,6 @@
     "title": "Cats in the USA",
     "section": "Project Organization",
     "text": "Project Organization\nfinal-project-nessapantfoerder/\n│\n├── data/\n│   ├── pet-cats-usa.csv\n│   ├── pet-cats-usa-reference-data.csv\n│   └── README.md           # Description of the data files\n│\n├── _extra/\n│   └── analysis.ipynb      # Initial exploratory analysis\n│   └── README.md           # Purpose of the folder\n│\n├── images/                 # Any images needed for the presentation or website\n│\n├── about.qmd               \n├── index.qmd               \n├── presentation.qmd        \n├── proposal.qmd            \n├── _quarto.yml             \n├── README.md            \n└── requirements.txt"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Cats in the USA",
-    "section": "",
-    "text": "Add project abstract here."
-  },
-  {
-    "objectID": "index.html#abstract",
-    "href": "index.html#abstract",
-    "title": "Cats in the USA",
-    "section": "",
-    "text": "Add project abstract here."
-  },
-  {
-    "objectID": "presentation.html#quarto",
-    "href": "presentation.html#quarto",
-    "title": "Cats in the USA",
-    "section": "Quarto",
-    "text": "Quarto\n\nThe presentation is created using the Quarto CLI\n## sets the start of a new slide"
-  },
-  {
-    "objectID": "presentation.html#layouts",
-    "href": "presentation.html#layouts",
-    "title": "Cats in the USA",
-    "section": "Layouts",
-    "text": "Layouts\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\nlike\nthis\n\nAnd add footnotes"
-  },
-  {
-    "objectID": "presentation.html#code",
-    "href": "presentation.html#code",
-    "title": "Cats in the USA",
-    "section": "Code",
-    "text": "Code\n\n\n                            OLS Regression Results                            \n==============================================================================\nDep. Variable:                    mpg   R-squared:                       0.073\nModel:                            OLS   Adj. R-squared:                  0.070\nMethod:                 Least Squares   F-statistic:                     30.59\nDate:                Mon, 04 Aug 2025   Prob (F-statistic):           5.84e-08\nTime:                        13:04:08   Log-Likelihood:                -1346.4\nNo. Observations:                 392   AIC:                             2697.\nDf Residuals:                     390   BIC:                             2705.\nDf Model:                           1                                         \nCovariance Type:            nonrobust                                         \n==============================================================================\n                 coef    std err          t      P&gt;|t|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst         35.8015      2.266     15.800      0.000      31.347      40.257\nspeed       -354.7055     64.129     -5.531      0.000    -480.788    -228.623\n==============================================================================\nOmnibus:                       27.687   Durbin-Watson:                   0.589\nProb(Omnibus):                  0.000   Jarque-Bera (JB):               18.976\nSkew:                           0.420   Prob(JB):                     7.57e-05\nKurtosis:                       2.323   Cond. No.                         169.\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified."
-  },
-  {
-    "objectID": "presentation.html#plots",
-    "href": "presentation.html#plots",
-    "title": "Cats in the USA",
-    "section": "Plots",
-    "text": "Plots"
-  },
-  {
-    "objectID": "presentation.html#plot-and-text",
-    "href": "presentation.html#plot-and-text",
-    "title": "Cats in the USA",
-    "section": "Plot and text",
-    "text": "Plot and text\n\n\n\nSome text\ngoes here"
-  },
-  {
-    "objectID": "presentation.html#tables",
-    "href": "presentation.html#tables",
-    "title": "Cats in the USA",
-    "section": "Tables",
-    "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,\n\n\n\n\n\n\n\n\n\n\n\n\nspecies\n\n\n\nisland\n\n\n\nbill_length_mm\n\n\n\nbill_depth_mm\n\n\n\nflipper_length_mm\n\n\n\nbody_mass_g\n\n\n\nsex\n\n\n\n\n\n\n\n\n\n\n\n0\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n39.1\n\n\n\n18.7\n\n\n\n181.0\n\n\n\n3750.0\n\n\n\nMale\n\n\n\n\n\n\n\n1\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n39.5\n\n\n\n17.4\n\n\n\n186.0\n\n\n\n3800.0\n\n\n\nFemale\n\n\n\n\n\n\n\n2\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n40.3\n\n\n\n18.0\n\n\n\n195.0\n\n\n\n3250.0\n\n\n\nFemale\n\n\n\n\n\n\n\n4\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n36.7\n\n\n\n19.3\n\n\n\n193.0\n\n\n\n3450.0\n\n\n\nFemale\n\n\n\n\n\n\n\n5\n\n\n\nAdelie\n\n\n\nTorgersen\n\n\n\n39.3\n\n\n\n20.6\n\n\n\n190.0\n\n\n\n3650.0\n\n\n\nMale"
-  },
-  {
-    "objectID": "presentation.html#images",
-    "href": "presentation.html#images",
-    "title": "Cats in the USA",
-    "section": "Images",
-    "text": "Images\n\nImage credit: Danielle Navarro, Percolate."
-  },
-  {
-    "objectID": "presentation.html#math-expressions",
-    "href": "presentation.html#math-expressions",
-    "title": "Cats in the USA",
-    "section": "Math Expressions",
-    "text": "Math Expressions\nYou can write LaTeX math expressions inside a pair of dollar signs, e.g. $\\alpha+\\beta$ renders \\(\\alpha + \\beta\\). You can use the display style with double dollar signs:\n$$\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i$$\n\\[\n\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i\n\\]\nLimitations:\n\nThe source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting $$ must appear in the very beginning of a line, followed immediately by a non-space character, and the ending $$ must be at the end of a line, led by a non-space character;\nThere should not be spaces after the opening $ or before the closing $."
-  },
-  {
-    "objectID": "presentation.html#feeling-adventurous",
-    "href": "presentation.html#feeling-adventurous",
-    "title": "Cats in the USA",
-    "section": "Feeling adventurous?",
-    "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
   },
   {
     "objectID": "about.html",

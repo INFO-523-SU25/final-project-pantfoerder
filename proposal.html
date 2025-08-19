@@ -9,7 +9,7 @@
 <meta name="author" content="Nessa Pantfoerder">
 <meta name="description" content="This proposal is for an interactive dashbaord to explore movement data of pet cats in the United States, aiming to uncover spatial patterns and detect outliers.">
 
-<title>Cats in the USA – Project Title</title>
+<title>Cats in the USA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4012,7 +4012,7 @@ vertical-align: -.125em;
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Project Title</span>
+    <span class="navbar-title">Cats in the USA</span>
     </a>
   </div>
             <div id="quarto-search" class title="Search"></div>
@@ -4032,6 +4032,10 @@ vertical-align: -.125em;
   <li class="nav-item">
     <a class="nav-link" href="./presentation.html"> 
 <span class="menu-text">Presentation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./_extra/dashboard.html"> 
+<span class="menu-text">Dashboard</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
@@ -4121,12 +4125,12 @@ vertical-align: -.125em;
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>cats <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/pet-cats-usa.csv&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2"></a>cats_ref <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/pet-cats-usa-reference-data.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The dataset used is “Pet Cats United States” from the Movebank Data Repostiory. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset “pet-cats-usa.csv” has 659770 rows and 15 columns. The reference dataset “pet-cats-usa-reference-data.csv” has 154 rows and 21 columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States.</p>
+<p>The dataset used is “Pet Cats United States” from the Movebank Data Repository. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset “pet-cats-usa.csv” has 659770 rows and 15 columns. The reference dataset “pet-cats-usa-reference-data.csv” has 154 rows and 21 columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States.</p>
 </section>
 <section id="questions" class="level2">
 <h2 class="anchored" data-anchor-id="questions">Questions</h2>
 <ol type="1">
-<li><p>What movememnt patterns do pet cats in the United States exhibit?</p></li>
+<li><p>What movement patterns do pet cats in the United States exhibit?</p></li>
 <li><p>Can we identify potential outliers or unusual behaviors in cat movement data?</p></li>
 </ol>
 </section>
@@ -4152,7 +4156,7 @@ vertical-align: -.125em;
 <ul>
 <li>Week 5: Perform basic exploratory analysis and explore static visualizations that could be used for the dashboard.</li>
 <li>Week 6: Develop dashboard components with outliers and filtering features.</li>
-<li>Week 7: Finalize dasbhoard and submit project write-up.</li>
+<li>Week 7: Finalize dashboard and submit project write-up.</li>
 </ul>
 </section>
 <section id="project-organization" class="level2">
@@ -4724,11 +4728,11 @@ vertical-align: -.125em;
 <span id="cb4-40"><a href="#cb4-40"></a>cats_ref <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/pet-cats-usa-reference-data.csv&quot;</span>)</span>
 <span id="cb4-41"><a href="#cb4-41"></a><span class="in">```</span></span>
 <span id="cb4-42"><a href="#cb4-42"></a></span>
-<span id="cb4-43"><a href="#cb4-43"></a>The dataset used is &quot;Pet Cats United States&quot; from the Movebank Data Repostiory. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset &quot;pet-cats-usa.csv&quot; has <span class="in">`{python} cats.shape[0]`</span> rows and <span class="in">`{python} cats.shape[1]`</span> columns. The reference dataset &quot;pet-cats-usa-reference-data.csv&quot; has <span class="in">`{python} cats_ref.shape[0]`</span> rows and <span class="in">`{python} cats_ref.shape[1]`</span> columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States.</span>
+<span id="cb4-43"><a href="#cb4-43"></a>The dataset used is &quot;Pet Cats United States&quot; from the Movebank Data Repository. This dataset contains GPS tracking data for pet cats in the United States and includes variables such as timestamps, animals IDs, sex, age, location coordinates, and movement attributes. The main dataset &quot;pet-cats-usa.csv&quot; has <span class="in">`{python} cats.shape[0]`</span> rows and <span class="in">`{python} cats.shape[1]`</span> columns. The reference dataset &quot;pet-cats-usa-reference-data.csv&quot; has <span class="in">`{python} cats_ref.shape[0]`</span> rows and <span class="in">`{python} cats_ref.shape[1]`</span> columns. This datasets is ideal for spatial and temporal analysis and its size is well suited for data mining and interactive data visualization. I chose this dataset because it allows for movement pattern detection as well as outlier detections which is ideal for discovering interesting behavioral insights into the ecological impact of pet cats in the United States.</span>
 <span id="cb4-44"><a href="#cb4-44"></a></span>
 <span id="cb4-45"><a href="#cb4-45"></a><span class="fu">## Questions</span></span>
 <span id="cb4-46"><a href="#cb4-46"></a></span>
-<span id="cb4-47"><a href="#cb4-47"></a><span class="ss">1.  </span>What movememnt patterns do pet cats in the United States exhibit?</span>
+<span id="cb4-47"><a href="#cb4-47"></a><span class="ss">1.  </span>What movement patterns do pet cats in the United States exhibit?</span>
 <span id="cb4-48"><a href="#cb4-48"></a></span>
 <span id="cb4-49"><a href="#cb4-49"></a><span class="ss">2.  </span>Can we identify potential outliers or unusual behaviors in cat movement data?</span>
 <span id="cb4-50"><a href="#cb4-50"></a></span>
@@ -4747,7 +4751,7 @@ vertical-align: -.125em;
 <span id="cb4-63"><a href="#cb4-63"></a></span>
 <span id="cb4-64"><a href="#cb4-64"></a><span class="ss">-   </span>Week 5: Perform basic exploratory analysis and explore static visualizations that could be used for the dashboard.</span>
 <span id="cb4-65"><a href="#cb4-65"></a><span class="ss">-   </span>Week 6: Develop dashboard components with outliers and filtering features.</span>
-<span id="cb4-66"><a href="#cb4-66"></a><span class="ss">-   </span>Week 7: Finalize dasbhoard and submit project write-up.</span>
+<span id="cb4-66"><a href="#cb4-66"></a><span class="ss">-   </span>Week 7: Finalize dashboard and submit project write-up.</span>
 <span id="cb4-67"><a href="#cb4-67"></a></span>
 <span id="cb4-68"><a href="#cb4-68"></a><span class="fu">## Project Organization</span></span>
 <span id="cb4-69"><a href="#cb4-69"></a></span>

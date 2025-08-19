@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nessa Pantfoerder">
-<meta name="description" content="An Interactive Dashboard for Detecting Patterns and Outliers in Animal Tracking Data">
+<meta name="description" content="An Interactive Dashboard for Detecting Trends and Outliers in Animal Tracking Data">
 
-<title>Cats in the USA – Project Title</title>
+<title>Cats in the USA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4012,7 +4012,7 @@ vertical-align: -.125em;
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Project Title</span>
+    <span class="navbar-title">Cats in the USA</span>
     </a>
   </div>
             <div id="quarto-search" class title="Search"></div>
@@ -4032,6 +4032,10 @@ vertical-align: -.125em;
   <li class="nav-item">
     <a class="nav-link" href="./presentation.html"> 
 <span class="menu-text">Presentation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./_extra/dashboard.html"> 
+<span class="menu-text">Dashboard</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
@@ -4061,7 +4065,17 @@ vertical-align: -.125em;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#data-preparation-and-cleaning" id="toc-data-preparation-and-cleaning" class="nav-link" data-scroll-target="#data-preparation-and-cleaning">Data Preparation and Cleaning</a></li>
+  <li><a href="#mining-methods-and-approach" id="toc-mining-methods-and-approach" class="nav-link" data-scroll-target="#mining-methods-and-approach">Mining Methods and Approach</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#hunting-prevalence" id="toc-hunting-prevalence" class="nav-link" data-scroll-target="#hunting-prevalence">Hunting Prevalence</a></li>
+  <li><a href="#prey-capture-rates" id="toc-prey-capture-rates" class="nav-link" data-scroll-target="#prey-capture-rates">Prey Capture Rates</a></li>
+  <li><a href="#age-related-behavior" id="toc-age-related-behavior" class="nav-link" data-scroll-target="#age-related-behavior">Age-Related Behavior</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -4077,7 +4091,7 @@ vertical-align: -.125em;
 
 <div>
   <div class="description">
-    An Interactive Dashboard for Detecting Patterns and Outliers in Animal Tracking Data
+    An Interactive Dashboard for Detecting Trends and Outliers in Animal Tracking Data
   </div>
 </div>
 
@@ -4107,9 +4121,95 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="abstract" class="level2">
-<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>Add project abstract here.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Cats are one of the most popular household pets in the United States, yet their behavior, specifically hunting behavior, is still an under researched front and remains a source of ongoing interest and debate. While many cats live exclusively indoors, a significant portion are allowed to roam outside, where their natural hunting instincts are let loose. This has implications not only for the health and enrichment of the cats themselves, but also for the local ecosystems. Studies have suggested that free-ranging cats can have substantial impacts on bird and small mammal populations, raising concerns among conservationists. On the other hand, understanding these behaviors also helps cat owners make more informed decisions about enrichment, diet, and overall animal welfare.</p>
+<p>The dataset analyzed in this project, the <em>Pet Cats United States Reference Data</em>, contains records of individual cats across the USA. Each entry documents both demographic details and behavioral notes. The relevant variables include:</p>
+<ul>
+<li><strong>animal-id</strong>: A unique identifier treating each cat as an individual observation.<br>
+</li>
+<li><strong>animal-sex</strong>: Categorical string indicating whether the cat is male or female.<br>
+</li>
+<li><strong>animal-life-stage</strong>: String stored as free-text (e.g., “2 years old”) then cleaned into numerical ages and further categorized into four life stages (kitten, adult, mature, senior).</li>
+<li><strong>animal-comments</strong>: A free-text column containing structured phrases about if the cat hunts and how many pray it catches per month in the format <em>“Hunt: Yes; prey_p_month: 12”</em>.<br>
+</li>
+<li><strong>hunts</strong>: A Boolean variable derived from parsing <code>animal-comments</code> that indicates whether the cat engages in hunting.<br>
+</li>
+<li><strong>prey_p_month</strong>: A derived numeric variable from parsing <code>animal-comments</code> that represents the number of prey caught monthly by that cat.</li>
+</ul>
+<p>The guiding question I dived into:<br>
+<strong>“How do life stage and sex affect the behavior and activity of pet cats in the USA, particularly their hunting behavior and prey capture rates?”</strong></p>
+<p>This question was chosen because it combines demographic and behavioral variables in a way that gives us insights into both practical (for cat owners) and ecological (for conservationists) implications.</p>
+<p>The chosen data mining approach centers on <strong>data cleaning, transformation, and descriptive analysis through visualization</strong>. This approach was chosen because the dataset is observational, not experimental, and the goal is to summarize and interpret rather than predict. Exploratory mining techniques are the most appropriate for revealing structure in demographic and behavioral data of this kind.</p>
+<hr>
+</section>
+<section id="data-preparation-and-cleaning" class="level1">
+<h1>Data Preparation and Cleaning</h1>
+<p>The raw dataset contained several challenges that needed careful handling before meaningful analysis could be performed. Data cleaning was a critical step because the quality of downstream analysis depended heavily on properly parsed input.</p>
+<p><strong>Age Cleaning and Categorization</strong><br>
+The <code>animal-life-stage</code> column originally included text-based descriptions such as “3 years” or “1 year old.” These were standardized by extracting numeric values, converting them to integers, and removing blanks. Once cleaned, cats were categorized into life stages:<br>
+- <strong>Kitten (0–2 years)</strong> – Young and still developing hunting skills.<br>
+- <strong>Adult (2–6 years)</strong> – Typically the prime age for activity and hunting.<br>
+- <strong>Mature (6–10 years)</strong> – Beginning to show declines but still capable hunters.<br>
+- <strong>Senior (10+ years)</strong> – Often less active due to age-related changes.</p>
+<p>This binning was pulled from common veterinary classifications and allows behavioral trends to be compared across meaningful age groups.</p>
+<p><strong>Parsing Owner Comments</strong><br>
+The <code>animal-comments</code> field contained structured phrases, such as <em>“Hunt: Yes; prey_p_month: 12”</em>. These were split into two explicit variables:<br>
+- <code>hunts</code>: Encoded as True if hunting was reported, False if explicitly stated otherwise, and blank if missing.<br>
+- <code>prey_p_month</code>: Converted into numeric form, making quantitative comparisons possible.</p>
+<p>This transformation illustrates how even semi-structured text can be mined for structured variables, a common need in real-world data projects.</p>
+<p><strong>Handling Missing Data</strong><br>
+Not all records contained complete information. For example, some had blank life stages or comments. Rather than discarding all incomplete cases, missing ages were excluded from age-based analysis, while missing hunting data was treated as “unknown” unless clearly marked. This approach balances data retention with analytic clarity.</p>
+<p>The final cleaned dataset was structured containing numeric and categorical variables ready for descriptive data mining.</p>
+<hr>
+</section>
+<section id="mining-methods-and-approach" class="level1">
+<h1>Mining Methods and Approach</h1>
+<p>The approach relied on to answer the research question was <strong>descriptive and exploratory data mining methods</strong>.</p>
+<ol type="1">
+<li><p><strong>Descriptive Statistics</strong><br>
+Basic summaries (counts, averages, percentages) were used to understand overall hunting prevalence and prey capture rates.</p></li>
+<li><p><strong>Grouping and Aggregation</strong><br>
+Cats were grouped by both life stage and sex, allowing hunting prevalence and prey rates to be compared across demographic subgroups.</p></li>
+<li><p><strong>Visualization</strong><br>
+Charts were created to summarize insights, including bar charts for categorical comparisons and boxplots for prey count distributions. Visual exploration allowed for identifying patterns and outliers in a way that might not be possible from the tables alone or uncleaned.</p></li>
+</ol>
+<hr>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<section id="hunting-prevalence" class="level3">
+<h3 class="anchored" data-anchor-id="hunting-prevalence">Hunting Prevalence</h3>
+<p>Hunting behavior varied across both life stage and sex. Male cats were more likely to be hunters than females, consistent with prior research on territorial and genetic tendencies. Adults had the highest likelihood of hunting, while Seniors were much less active.</p>
+</section>
+<section id="prey-capture-rates" class="level3">
+<h3 class="anchored" data-anchor-id="prey-capture-rates">Prey Capture Rates</h3>
+<p>Among cats that hunted, prey capture rates varied. Adult and mature cats averaged the highest number of prey per month, while Senior cats maintained the lowest levels. This most likely is due to reduced activity and physical agility.</p>
+</section>
+<section id="age-related-behavior" class="level3">
+<h3 class="anchored" data-anchor-id="age-related-behavior">Age-Related Behavior</h3>
+<p>Breaking the data into life stages revealed a clear behavioral trajectory:<br>
+- <strong>Kittens:</strong> Moderate hunting activity, likely due to inexperience.<br>
+- <strong>Adults:</strong> Peak hunting period, aligning with peak physical condition.<br>
+- <strong>Mature:</strong> Still active but beginning to decline.<br>
+- <strong>Seniors:</strong> Minimal hunting.</p>
+<p>These results suggest that the age or life stage of a cat has a stronger influence than sex, though sex still has a significant impact.</p>
+<hr>
+</section>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<p>The findings reinforce both biological expectations and practical concerns. Cats in their adult years, especially males, are the most active hunters. This finding is important for cat owners who are considering outdoor access, as well as for ecologists who are assessing impacts on wildlife.</p>
+<p>From a <strong>pet ownership perspective</strong>, owners of young adult cats might want to consider supervised outdoor play or indoor enrichment alternatives to reduce pressure on local ecosystems. For older cats, owners may want to consider to adapt enrichment to keep them stimulated given reduced hunting.</p>
+<p>From a <strong>conservation perspective</strong>, these findings align with broader concerns about free-ranging cats. While not all cats hunt, those that do, especially adult and mature male cats, can contribute significantly to wildlife predation. Understanding which cats are most likely to hunt allows for more targeted education.</p>
+<p>This study also highlights the value of <strong>data cleaning and transformation in data mining</strong>. The original dataset did not provide ready-made variables for analysis. By engineering <code>hunts</code> and <code>prey_p_month</code> from comments, we unlocked insights that would otherwise remain hidden.</p>
+<p>There are a few limitations of this dataset. One limitation is that the dataset is owner-reported and may under or overestimate actual behavior. Another limitation is the absence of linkage between animal demographic information and geographic data collected by the trackers.</p>
+<hr>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>This project highlights how data cleaning, transformation, and descriptive mining can reveal patterns in behavioral data. By focusing on life stage and sex of cats, we can show that hunting behavior is larger in male and adult cats, while female and senior cats contribute little in comparison.</p>
+<p>Future research could expand the dataset, add geographic or longitudinal dimensions, or apply predictive models. The dashboard currently provides a clear summary of cat behavior to be utilized by pet owners and ecologists.</p>
 
 
 <!-- -->
@@ -4587,7 +4687,7 @@ vertical-align: -.125em;
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: &quot;Nessa Pantfoerder&quot;</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: &quot;College of Information Science, University of Arizona&quot;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> &quot;An Interactive Dashboard for Detecting Patterns and Outliers in Animal Tracking Data&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> &quot;An Interactive Dashboard for Detecting Trends and Outliers in Animal Tracking Data&quot;</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">   html:</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
@@ -4600,9 +4700,108 @@ vertical-align: -.125em;
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Abstract</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>Add project abstract here.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>Cats are one of the most popular household pets in the United States, yet their behavior, specifically hunting behavior, is still an under researched front and remains a source of ongoing interest and debate. While many cats live exclusively indoors, a significant portion are allowed to roam outside, where their natural hunting instincts are let loose. This has implications not only for the health and enrichment of the cats themselves, but also for the local ecosystems. Studies have suggested that free-ranging cats can have substantial impacts on bird and small mammal populations, raising concerns among conservationists. On the other hand, understanding these behaviors also helps cat owners make more informed decisions about enrichment, diet, and overall animal welfare.</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>The dataset analyzed in this project, the *Pet Cats United States Reference Data*, contains records of individual cats across the USA. Each entry documents both demographic details and behavioral notes. The relevant variables include:</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**animal-id**: A unique identifier treating each cat as an individual observation.  </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**animal-sex**: Categorical string indicating whether the cat is male or female.  </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**animal-life-stage**: String stored as free-text (e.g., &quot;2 years old&quot;) then cleaned into numerical ages and further categorized into four life stages (kitten, adult, mature, senior).</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**animal-comments**: A free-text column containing structured phrases about if the cat hunts and how many pray it catches per month in the format *“Hunt: Yes; prey_p_month: 12”*.  </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**hunts**: A Boolean variable derived from parsing <span class="in">`animal-comments`</span> that indicates whether the cat engages in hunting.  </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**prey_p_month**: A derived numeric variable from parsing <span class="in">`animal-comments`</span> that represents the number of prey caught monthly by that cat.  </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>The guiding question I dived into:  </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>**“How do life stage and sex affect the behavior and activity of pet cats in the USA, particularly their hunting behavior and prey capture rates?”**</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>This question was chosen because it combines demographic and behavioral variables in a way that gives us insights into both practical (for cat owners) and ecological (for conservationists) implications.  </span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>The chosen data mining approach centers on **data cleaning, transformation, and descriptive analysis through visualization**. This approach was chosen because the dataset is observational, not experimental, and the goal is to summarize and interpret rather than predict. Exploratory mining techniques are the most appropriate for revealing structure in demographic and behavioral data of this kind.</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Preparation and Cleaning</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>The raw dataset contained several challenges that needed careful handling before meaningful analysis could be performed. Data cleaning was a critical step because the quality of downstream analysis depended heavily on properly parsed input. </span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>**Age Cleaning and Categorization**  </span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>The <span class="in">`animal-life-stage`</span> column originally included text-based descriptions such as “3 years” or “1 year old.” These were standardized by extracting numeric values, converting them to integers, and removing blanks. Once cleaned, cats were categorized into life stages:  </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Kitten (0–2 years)** – Young and still developing hunting skills.  </span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Adult (2–6 years)** – Typically the prime age for activity and hunting.  </span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Mature (6–10 years)** – Beginning to show declines but still capable hunters.  </span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Senior (10+ years)** – Often less active due to age-related changes.  </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>This binning was pulled from common veterinary classifications and allows behavioral trends to be compared across meaningful age groups.  </span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>**Parsing Owner Comments**  </span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>The <span class="in">`animal-comments`</span> field contained structured phrases, such as *“Hunt: Yes; prey_p_month: 12”*. These were split into two explicit variables:  </span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`hunts`</span>: Encoded as True if hunting was reported, False if explicitly stated otherwise, and blank if missing.  </span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`prey_p_month`</span>: Converted into numeric form, making quantitative comparisons possible.  </span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>This transformation illustrates how even semi-structured text can be mined for structured variables, a common need in real-world data projects.  </span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>**Handling Missing Data**  </span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>Not all records contained complete information. For example, some had blank life stages or comments. Rather than discarding all incomplete cases, missing ages were excluded from age-based analysis, while missing hunting data was treated as “unknown” unless clearly marked. This approach balances data retention with analytic clarity.  </span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>The final cleaned dataset was structured containing numeric and categorical variables ready for descriptive data mining.</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="fu"># Mining Methods and Approach</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>The approach relied on to answer the research question was **descriptive and exploratory data mining methods**.</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Descriptive Statistics**  </span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>Basic summaries (counts, averages, percentages) were used to understand overall hunting prevalence and prey capture rates.  </span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Grouping and Aggregation**  </span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>Cats were grouped by both life stage and sex, allowing hunting prevalence and prey rates to be compared across demographic subgroups.  </span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Visualization**  </span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>Charts were created to summarize insights, including bar charts for categorical comparisons and boxplots for prey count distributions. Visual exploration allowed for identifying patterns and outliers in a way that might not be possible from the tables alone or uncleaned.</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="fu"># Results</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="fu">### Hunting Prevalence</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>Hunting behavior varied across both life stage and sex. Male cats were more likely to be hunters than females, consistent with prior research on territorial and genetic tendencies. Adults had the highest likelihood of hunting, while Seniors were much less active.  </span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="fu">### Prey Capture Rates</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>Among cats that hunted, prey capture rates varied. Adult and mature cats averaged the highest number of prey per month, while Senior cats maintained the lowest levels. This most likely is due to reduced activity and physical agility.  </span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="fu">### Age-Related Behavior</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>Breaking the data into life stages revealed a clear behavioral trajectory:  </span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Kittens:** Moderate hunting activity, likely due to inexperience.  </span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Adults:** Peak hunting period, aligning with peak physical condition.  </span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Mature:** Still active but beginning to decline.  </span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Seniors:** Minimal hunting.  </span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>These results suggest that the age or life stage of a cat has a stronger influence than sex, though sex still has a significant impact.  </span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="fu"># Discussion</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>The findings reinforce both biological expectations and practical concerns. Cats in their adult years, especially males, are the most active hunters. This finding is important for cat owners who are considering outdoor access, as well as for ecologists who are assessing impacts on wildlife.  </span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>From a **pet ownership perspective**, owners of young adult cats might want to consider supervised outdoor play or indoor enrichment alternatives to reduce pressure on local ecosystems. For older cats, owners may want to consider to adapt enrichment to keep them stimulated given reduced hunting.  </span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>From a **conservation perspective**, these findings align with broader concerns about free-ranging cats. While not all cats hunt, those that do, especially adult and mature male cats, can contribute significantly to wildlife predation. Understanding which cats are most likely to hunt allows for more targeted education.  </span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>This study also highlights the value of **data cleaning and transformation in data mining**. The original dataset did not provide ready-made variables for analysis. By engineering <span class="in">`hunts`</span> and <span class="in">`prey_p_month`</span> from comments, we unlocked insights that would otherwise remain hidden.</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>There are a few limitations of this dataset. One limitation is that the dataset is owner-reported and may under or overestimate actual behavior. Another limitation is the absence of linkage between animal demographic information and geographic data collected by the trackers.</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="fu"># Conclusion</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>This project highlights how data cleaning, transformation, and descriptive mining can reveal patterns in behavioral data. By focusing on life stage and sex of cats, we can show that hunting behavior is larger in male and adult cats, while female and senior cats contribute little in comparison.</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>Future research could expand the dataset, add geographic or longitudinal dimensions, or apply predictive models. The dashboard currently provides a clear summary of cat behavior to be utilized by pet owners and ecologists.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
